@@ -16,6 +16,9 @@ public class MyAuthenticationProvider implements AuthenticationProvider{
 
 	@Autowired
 	private MyUserDetailsService myUserDetailsService;
+	
+	
+	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getName();
@@ -29,7 +32,6 @@ public class MyAuthenticationProvider implements AuthenticationProvider{
         if (!password.equals(user.getPassword())) {
             throw new BadCredentialsException("Wrong password.");
         }
-
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         return new UsernamePasswordAuthenticationToken(user, password, authorities);
 	}

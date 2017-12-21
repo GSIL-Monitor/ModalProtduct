@@ -11,6 +11,8 @@ spring:
 mybatis-plus:
   type-aliases-package: com.huimin.entity
   type-enums-package: com.huimin.entity.enums
+  configuration:
+    map-underscore-to-camel-case: true
 security:
   user:
     name: admin
