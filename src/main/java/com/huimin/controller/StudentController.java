@@ -39,4 +39,14 @@ public class StudentController {
 		student.setType(Type.ELEMENTARY_SCHOOL_STUDENT);
 		return studentService.insert(student);
 	}
+	@GetMapping("/update")
+	@ResponseBody
+	public Boolean update(Student student){
+		student.setAge(new Random().nextInt(100));
+		student.setBrithday(new Date());
+		student.setSchool("清华大学");
+		student.setSex(Sex.MALE);
+		student.setType(Type.ELEMENTARY_SCHOOL_STUDENT);
+		return studentService.updateById(student);
+	}
 }

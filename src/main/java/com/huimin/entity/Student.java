@@ -14,6 +14,7 @@ import com.huimin.enun.Sex;
 public class Student {
 
 	@TableId(type = IdType.AUTO)
+	@NotNull
 	private Integer id;
 	private String name;
 	@NotNull
