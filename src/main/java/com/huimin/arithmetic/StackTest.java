@@ -1,6 +1,7 @@
 package com.huimin.arithmetic;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
@@ -37,9 +38,9 @@ public class StackTest {
 	}
 
 	// 匹配Java程序中{ ( [ " 符号是否成对出现
-	public static boolean isMatch(String javaFilePath) {
+	public static boolean isMatch(File javaFile) {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(javaFilePath)));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(javaFile)));
 			StringBuilder builder = new StringBuilder();
 			String readLine;
 			while ((readLine = reader.readLine()) != null) {
@@ -47,58 +48,63 @@ public class StackTest {
 			}
 			reader.close();
 			String source = builder.toString();
-			MyStack<Character> stack = new MyStack<Character>();
-			for (int i = 0; i < source.length(); i++) {
-				char c = source.charAt(i);
-				if (c == '{' || c == '[' || c == '(') {
-					if (stack.isEmpty()) {
+			return isMatch(source);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	public static boolean isMatch(String source) {
+		MyStack<Character> stack = new MyStack<Character>();
+		for (int i = 0; i < source.length(); i++) {
+			char c = source.charAt(i);
+			if (c == '{' || c == '[' || c == '(') {
+				if (stack.isEmpty()) {
+					stack.push(c);
+				}else {
+					if (stack.peek() != '"') {
 						stack.push(c);
-					}else {
-						if (stack.peek() != '"') {
+					}
+				}
+			}
+			if (c == '}' || c == ']' || c == ')') {
+				if (!stack.isEmpty()) {
+					Character top = stack.peek();
+					if ((c == '}' && top == '{') || (c == ']' && top == '[') || (c == ')' && top == '(')) {
+						stack.pop();
+					}else if (top != '"') {
+						return  false;
+					}
+				} else {
+					return false;
+				}
+			}
+			if (c == '"') {
+				if (i == 0) {
+					// 不可能为转义的" 直接加入栈中
+					stack.push(c);
+				} else {
+					// 栈为空的情况 检查其是否为转义字符
+					char at = source.charAt(i - 1);
+					if (at != '\\') {
+						if (stack.isEmpty()) {
 							stack.push(c);
-						}
-					}
-				}
-				if (c == '}' || c == ']' || c == ')') {
-					if (!stack.isEmpty()) {
-						Character top = stack.peek();
-						if ((c == '}' && top == '{') || (c == ']' && top == '[') || (c == ')' && top == '(')) {
-							stack.pop();
-						}else if (top != '"') {
-							return  false;
-						}
-					} else {
-						return false;
-					}
-				}
-				if (c == '"') {
-					if (i == 0) {
-						// 不可能为转义的" 直接加入栈中
-						stack.push(c);
-					} else {
-						// 栈为空的情况 检查其是否为转义字符
-						char at = source.charAt(i - 1);
-						if (at != '\\') {
-							if (stack.isEmpty()) {
-								stack.push(c);
+						}else {
+							Character t = stack.peek();
+							if (t == '"') {
+								stack.pop();
 							}else {
-								Character t = stack.peek();
-								if (t == '"') {
-									stack.pop();
-								}else {
-									stack.push(c);
-								}
+								stack.push(c);
 							}
 						}
 					}
 				}
 			}
-
-			return stack.isEmpty();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return false;
+
+		return stack.isEmpty();
 	}
 }
 

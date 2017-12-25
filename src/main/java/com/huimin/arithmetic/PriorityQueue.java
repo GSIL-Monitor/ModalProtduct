@@ -32,7 +32,7 @@ public class PriorityQueue<T extends Comparable<T>> {
 			throw new RuntimeException("队列为空");
 		}
 		size--;
-		return corvent(queue[--front]);
+		return corvent(queue[front--]);
 	}
 
 	public void put(T t) {

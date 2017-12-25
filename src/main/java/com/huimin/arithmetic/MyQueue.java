@@ -7,12 +7,14 @@ package com.huimin.arithmetic;
  *
  * @date 2017年12月23日
  */
-public class MyQueue<T extends Comparable<T>> {
+public class MyQueue<T> {
 
 	// 队列数组
 	private Object[] queue;
 	// 队列头部位置 默认为-1
 	private int front = -1;
+	// 队列尾的位置
+	private int rear = -1;
 
 	private int maxSize = 100;
 	// 队列中元素的个数
@@ -27,20 +29,25 @@ public class MyQueue<T extends Comparable<T>> {
 		if (isEmpty()) {
 			throw new RuntimeException("队列为空");
 		}
+		// 队头环绕移动
+		if (front == maxSize) {
+			front = 0;
+		}
 		size--;
-		return corvent(queue[--front]);
+		return corvent(queue[front++]);
 	}
 
 	public void put(T t) {
 		if (isFull()) {
 			throw new RuntimeException("队列已满");
 		}
+		// 到了队尾 则队尾环绕到队头
+		if (++rear == maxSize) {
+			rear = 0;
+		}
+		queue[rear] = t;
 		if (isEmpty()) {
-			queue[++front] = t;
-		}else {
-			for (int i = 0; i < size; i++) {
-				
-			}
+			front = rear;
 		}
 		size++;
 	}
