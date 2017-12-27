@@ -2,6 +2,7 @@ package com.huimin.base;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -12,6 +13,19 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 public class BaseTest {
 
+	@Test
+	public void test03(){
+		List<Integer> list = new LinkedList<>();
+		list.add(1);
+		list.add(1);
+		list.add(1);
+		list.add(1);
+		System.out.println(list);
+		
+		list.remove(1);
+		System.out.println(list);
+		
+	}
 	@Test
 	public void test02(){
 		List<Integer> list = new ArrayList<>();

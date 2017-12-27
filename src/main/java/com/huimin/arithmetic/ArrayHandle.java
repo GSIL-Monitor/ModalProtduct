@@ -1,8 +1,5 @@
 package com.huimin.arithmetic;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * 数组排序类
  * @author zhuliang
@@ -13,11 +10,12 @@ public class ArrayHandle {
 
 	public static void main(String[] args) {
 		Integer[] arrays = {1,4,56,3,34,3,12,6};
-	     List<Integer> asList = Arrays.asList(arrays);
-	     System.out.println(asList.contains(34));
+	    // List<Integer> asList = Arrays.asList(arrays);
+	    // System.out.println(asList.contains(34));
 		//bubblingSort(arrays, true);
 		//insertSort(arrays, false);
-		System.out.println(dichotomy(arrays, 34));
+		//System.out.println(dichotomy(arrays, 34));
+		selectSort(arrays, true);
 		for (Integer integer : arrays) {
 			System.out.print(integer + " ");
 		}
@@ -65,17 +63,19 @@ public class ArrayHandle {
 	 */
 	public static <T extends Comparable<T>> void selectSort(T[] arrays, boolean isAsc) {
 		for (int i = 0; i < arrays.length - 1; i++) {
+			int min = i;
 			for (int j = i + 1; j < arrays.length; j++) {
 				if (isAsc) {
-					if (arrays[i].compareTo(arrays[j]) > 0) {
-						exchange(arrays, i , j);
+					if (arrays[min].compareTo(arrays[j]) > 0) {
+						min = j;
 					}
 				}else {
-					if (arrays[i].compareTo(arrays[j]) < 0) {
-						exchange(arrays, i , j);
+					if (arrays[min].compareTo(arrays[j]) < 0) {
+						min = j;
 					}
 				}
 			}
+			exchange(arrays, i , min);
 		}
 	}
 	/**

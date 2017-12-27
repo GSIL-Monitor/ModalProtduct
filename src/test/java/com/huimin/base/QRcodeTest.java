@@ -14,7 +14,7 @@ public class QRcodeTest {
 	@Test
 	public void test01(){
 		try {
-			QRcode.encode("http://192.168.106.56:20000/swagger-ui.html#!/promotion-activity-controller/singleProductDiscountsCreateUsingPOST", "C:/Users/ThinkPad/Desktop/logo.png", "C:/Users/ThinkPad/Desktop");
+			QRcode.encode("wwww.baidu.com", "C:/Users/ThinkPad/Desktop/logo.png", "C:/Users/ThinkPad/Desktop");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
