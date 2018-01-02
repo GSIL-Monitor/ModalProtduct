@@ -1,17 +1,39 @@
 package com.huimin.arithmetic.test;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.Test;
 
 import com.huimin.arithmetic.MyLinkList;
 import com.huimin.arithmetic.OneWayLink;
 import com.huimin.arithmetic.TwoWayLinkList;
+import com.huimin.entity.Student;
 
 public class LinkTest {
 
 	
 	
+	@Test
+	public void test07(){
+		Map<Student, Object> map = new HashMap<>(4);
+		Map<Student, Object> map2 = new TreeMap<>();
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		map.put(new Student(), 1);
+		int size = map.size();
+		System.out.println(size);
+	}
 	@Test
 	public void test06(){
 		TwoWayLinkList<Integer> list = new TwoWayLinkList<>();

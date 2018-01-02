@@ -23,6 +23,11 @@ public class Student {
 	private Date brithday;
 	private  Type type;
 	private Sex sex;
+	
+	@Override
+	public int hashCode() {
+		return 100;
+	}
 	public Integer getId() {
 		return id;
 	}

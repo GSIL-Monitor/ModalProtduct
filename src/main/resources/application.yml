@@ -17,3 +17,10 @@ security:
   user:
     name: admin
     password: admin
+logging:
+  level:
+    com.huimin.mapper: debug 
+    
+   
+    
+  

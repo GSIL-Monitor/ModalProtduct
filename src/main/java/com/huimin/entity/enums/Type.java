@@ -1,7 +1,5 @@
 package com.huimin.entity.enums;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.enums.IEnum;
 
 public enum Type implements IEnum {
@@ -16,7 +14,7 @@ public enum Type implements IEnum {
 		this.type = type;
 	}
 	@Override
-	public Serializable getValue() {
+	public Integer getValue() {
 		return type;
 	}
 	public Integer getType() {

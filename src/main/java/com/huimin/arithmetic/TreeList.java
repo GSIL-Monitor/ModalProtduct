@@ -7,7 +7,7 @@ package com.huimin.arithmetic;
  *
  * @date 2017年12月27日
  */
-public class MyTreeList<T extends Comparable<T>> {
+public class TreeList<T extends Comparable<T>> {
 
 	protected Tree<T> tree;
 	private int size = 0;
@@ -95,19 +95,12 @@ public class MyTreeList<T extends Comparable<T>> {
 					}
 					leftbyright.left = nodeReplaceDelete;
 					nodeReplaceDelete = current.right;
-					nodeReplaceDelete.parent = current.parent;
 				}
 				if (parent == null) {
 					tree = nodeReplaceDelete;
-					nodeReplaceDelete.parent = null;
-				    if (current.hasLeft()) {
-						current.left.parent = nodeReplaceDelete;
-					}
 				} else if (parent.left == current) {
 					parent.left = nodeReplaceDelete;
-					nodeReplaceDelete.parent = parent;
 				} else {
-					nodeReplaceDelete.parent = parent;
 					parent.right = nodeReplaceDelete;
 				}
 				size--;
@@ -173,7 +166,6 @@ public class MyTreeList<T extends Comparable<T>> {
 					if (current.hasRight()) {
 						current = current.right;
 					} else {
-						node.parent = current;
 						current.right = node;
 						break;
 					}
@@ -181,7 +173,6 @@ public class MyTreeList<T extends Comparable<T>> {
 					if (current.hasLeft()) {
 						current = current.left;
 					} else {
-						node.parent = current;
 						current.left = node;
 						break;
 					}
@@ -199,7 +190,6 @@ public class MyTreeList<T extends Comparable<T>> {
 		private E elum;
 		private Tree<E> left;
 		private Tree<E> right;
-		private Tree<E> parent;
 
 		public Tree(E elum, Tree<E> left, Tree<E> right) {
 			this.elum = elum;
@@ -213,9 +203,6 @@ public class MyTreeList<T extends Comparable<T>> {
 
 		public boolean hasRight() {
 			return right != null;
-		}
-		public boolean hasParent() {
-			return parent != null;
 		}
 
 		public Tree<E> getLeft() {
@@ -232,15 +219,6 @@ public class MyTreeList<T extends Comparable<T>> {
 
 		public void setRight(Tree<E> right) {
 			this.right = right;
-		}
-
-		
-		public Tree<E> getParent() {
-			return parent;
-		}
-
-		public void setParent(Tree<E> parent) {
-			this.parent = parent;
 		}
 
 		public E getElum() {

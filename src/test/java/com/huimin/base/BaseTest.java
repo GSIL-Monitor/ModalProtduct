@@ -1,5 +1,11 @@
 package com.huimin.base;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -8,11 +14,43 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.Test;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 public class BaseTest {
 
+	@Test
+	public void test05() throws Exception{
+	//	HashMap<K, V>
+		System.out.println(1 << 30);
+		System.out.println(Math.pow(2, 30));
+	}
+	@Test
+	public void test04() throws Exception{
+		URL url = new URL("http://newehr-api.beta.huimin100.cn:28102/ehr_api/rest/generation/system/getRoleByUserId");
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod(HttpMethod.POST.name());
+		connection.setDoOutput(true);
+		connection.setDoInput(true);
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		OutputStream outputStream = connection.getOutputStream();
+		outputStream.write("user_id=20000&ctime=&1514430643936&nonce=QANsS465K9k37gS6odpW&sign=a695fab8e0a0420483dae7ca559cbb989ec6d21777a0ef4240141180176f3668".getBytes());
+		outputStream.flush();
+		outputStream.close();
+		
+		InputStream inputStream = connection.getInputStream();
+		StringBuilder result = new StringBuilder();
+		BufferedReader breader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
+		String str = breader.readLine();
+		while (str != null) {
+			result.append(str);
+			str = breader.readLine();
+		}
+		breader.close();
+		inputStream.close();
+		System.out.println(result.toString());
+	}
 	@Test
 	public void test03(){
 		List<Integer> list = new LinkedList<>();
