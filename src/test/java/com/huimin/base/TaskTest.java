@@ -1,6 +1,7 @@
 package com.huimin.base;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.huimin.entity.Student;
+import com.huimin.init.MyStartupRunner1;
 import com.huimin.task.TimeTaskService;
 import com.huimin.task.job.TestJob;
 
@@ -27,6 +30,16 @@ public class TaskTest {
 	
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
+	
+	@Autowired
+	private MyStartupRunner1 myStartupRunner1;
+	@Test
+	public void test02() throws SchedulerException{
+		Map<Integer, Student> init = MyStartupRunner1.INIT;
+		System.out.println(init);
+		
+		System.out.println(myStartupRunner1.get(1));
+ 	}
 	@Test
 	public void test01() throws SchedulerException{
 		timeTaskService.startJob(new TestJob(), "test", "1", new Date(new Date().getTime() + 10000000000L));

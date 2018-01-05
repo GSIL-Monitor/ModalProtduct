@@ -89,8 +89,8 @@ public class MyBalanceTree<T extends Comparable<T>> extends MyTreeList<T> {
 	public Tree<T> findMiddle(Tree<T> root) {
 		
 		class Tr<E extends Comparable<E>> {
-			int i;
-			Tree<E> node;
+			private int i;
+			private  Tree<E> node;
             public Tr(Tree<E> node) {
             	this.node = node;
             	i = 0;

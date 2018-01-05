@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.ibatis.jdbc.SQL;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,15 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 public class BaseTest {
 
+	@Test
+	public void test06() throws Exception{
+		String string = new SQL(){{
+			SELECT("abc,bgh");
+			FROM("aaaa");
+			WHERE("x > 10");
+		}}.toString();
+		System.out.println(string);
+	}
 	@Test
 	public void test05() throws Exception{
 	//	HashMap<K, V>
@@ -42,10 +52,9 @@ public class BaseTest {
 		InputStream inputStream = connection.getInputStream();
 		StringBuilder result = new StringBuilder();
 		BufferedReader breader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
-		String str = breader.readLine();
-		while (str != null) {
+		String str;
+		while ((str = breader.readLine()) != null) {
 			result.append(str);
-			str = breader.readLine();
 		}
 		breader.close();
 		inputStream.close();

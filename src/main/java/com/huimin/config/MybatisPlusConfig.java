@@ -29,7 +29,6 @@ public class MybatisPlusConfig {
     private DataSource dataSource;
     @Autowired
     private MybatisProperties properties;
-    @Autowired
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
     @Autowired(required = false)
     private Interceptor[] interceptors;
