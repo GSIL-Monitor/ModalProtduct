@@ -3,7 +3,6 @@ package com.huimin.arithmetic.test;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.junit.Test;
 
@@ -19,7 +18,7 @@ public class LinkTest {
 	@Test
 	public void test07(){
 		Map<Student, Object> map = new HashMap<>(4);
-		Map<Student, Object> map2 = new TreeMap<>();
+	   //Map<Student, Object> map2 = new TreeMap<>();
 		map.put(new Student(), 1);
 		map.put(new Student(), 1);
 		map.put(new Student(), 1);
