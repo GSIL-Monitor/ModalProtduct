@@ -6,6 +6,7 @@ public enum Type implements IEnum {
 	MIDDLE_SCHOOL_STUDENT(2, "中学生"),
     ELEMENTARY_SCHOOL_STUDENT(1, "小学生");
 
+	
 	private Integer type;
 	private String cn;
 	

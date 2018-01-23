@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.jdbc.SQL;
 import org.junit.Test;
@@ -19,9 +21,29 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
+import com.huimin.entity.Student;
+
 public class BaseTest {
 
 	@Test
+	public void test0() throws Exception{
+		Student student = new Student();
+		student.setId(1);
+		student.setAge(2);
+		Student student2 = new Student();
+		student2.setId(2);
+		student2.setAge(2);
+		Student student3 = new Student();
+		student3.setId(3);
+		student3.setAge(2);
+		List<Student> students = new ArrayList<>();
+		students.add(student3);
+		students.add(student2);
+		students.add(student);
+		Set<Integer> keySet = students.stream().collect(Collectors.toMap(Student::getId, Function.identity())).keySet();
+		System.out.println(keySet);
+	}
+	
 	public void test06() throws Exception{
 		String string = new SQL(){{
 			SELECT("abc,bgh");
