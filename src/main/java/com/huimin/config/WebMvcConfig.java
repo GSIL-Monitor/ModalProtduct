@@ -32,4 +32,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/*");
 		super.addInterceptors(registry);
 	}
+	
+   
 }

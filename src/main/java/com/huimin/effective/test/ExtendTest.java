@@ -7,11 +7,16 @@ import org.junit.Test;
 public class ExtendTest {
 
 	@Test
+	public void test03(){
+		Runtime runtime = Runtime.getRuntime();
+		System.out.println(runtime.totalMemory() / 1024 /1024);// 1024/1024/1024);
+	}
+	@Test
 	public void test02(){
 		Date date = new Date();
 		java.sql.Date date2 = new java.sql.Date(date.getTime());
-		  System.out.println(date);
-		  System.out.println(date2);
+		System.out.println(date);
+		System.out.println(date2);
 	}
 	@Test
 	public void test01(){

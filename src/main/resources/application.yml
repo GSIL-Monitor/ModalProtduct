@@ -4,6 +4,11 @@ eureka:
       defaultZone: http://localhost:8088/eureka/
 
 spring:
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 3MB
+      max-request-size: 3MB
   application:
     name: test-service
   datasource:
