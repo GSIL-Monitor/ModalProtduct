@@ -15,15 +15,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-        .authorizeRequests()                                                              
-              .antMatchers( "/static/**").permitAll()//  2
-              .anyRequest().authenticated()  //      5
-                               
-              .and()
-         // ...
-        .formLogin()
-          .successForwardUrl("/");
+//		http
+//        .authorizeRequests()                                                              
+//              .antMatchers( "/static/**").permitAll()//  2
+//              .anyRequest().authenticated()  //      5
+//                               
+//              .and()
+//         // ...
+//        .formLogin()
+//          .defaultSuccessUrl("/");
 		//super.configure(http);
+		http.authorizeRequests().anyRequest().permitAll();
 	}
 }

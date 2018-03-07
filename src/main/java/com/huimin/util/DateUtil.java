@@ -237,5 +237,12 @@ public class DateUtil {
 	        return Date.from(LocalDate.now().plusDays(day).atStartOfDay(ZoneId
 	                .systemDefault()).toInstant());
 	    }
+	    
+	    public static LocalDate date2LocalDate(Date date) {
+	    	return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    }
+	    public static LocalDateTime date2LocalDateTime(Date date) {
+	    	return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+	    }
 	
 }
