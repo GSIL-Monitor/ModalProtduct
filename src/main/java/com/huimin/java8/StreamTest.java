@@ -29,8 +29,8 @@ public class StreamTest {
 	}
 	@Test
 	public void test25() {
-		Stream<Integer> flatMap = artists().stream().flatMap(artist -> artist.getMembers().stream()
-				.map(artis -> artis.getAge()));
+//		Stream<Integer> flatMap = artists().stream().flatMap(artist -> artist.getMembers().stream()
+//				.map(artis -> artis.getAge()));
 		int sum = artists().stream().flatMap(artist -> artist.getMembers().stream()
 				.map(artis -> artis.getAge())).mapToInt(age -> age).sum();
 		System.out.println(sum);
@@ -216,7 +216,7 @@ public class StreamTest {
 	@Test
 	public void test03() {
 		List<Artist> artists = artists();
-		Artist artist2 = artists.stream().min(Comparator.comparing(artist -> artist.getAge())).get();
+		Artist artist2 = artists.stream().min(Comparator.comparing(Artist::getAge)).get();
 		System.out.println(artist2);
 	}
 	@Test

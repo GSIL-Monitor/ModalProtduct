@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
@@ -28,11 +30,14 @@ public class MyStartupRunner1 implements CommandLineRunner{
 	private Environment environment;
 	
 	@Autowired
+	private DataSource source;
+	//@Autowired
 	private Student student1;
-	@Autowired
+	//@Autowired
 	private Student student2;
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println(source);
 		String[] activeProfiles = environment.getActiveProfiles();
 		for (String str : activeProfiles) {
 			System.out.println(str);

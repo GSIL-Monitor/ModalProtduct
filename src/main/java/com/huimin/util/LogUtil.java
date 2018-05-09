@@ -21,6 +21,9 @@ public class LogUtil {
 	public static  LogUtil logger(Object object) {
 		return logger(object.getClass());
 	}
+	public static  LogUtil logger() {
+		return logger(LogUtil.class);
+	}
 	public  void  debug(String message) {
 		logger.debug(message);
 	}

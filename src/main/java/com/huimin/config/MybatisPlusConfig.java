@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.annotation.MapperScan;
-import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +24,7 @@ import com.baomidou.mybatisplus.entity.GlobalConfiguration;
 import com.baomidou.mybatisplus.enums.DBType;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
+import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
 import com.baomidou.mybatisplus.spring.boot.starter.SpringBootVFS;
 import com.huimin.config.MydatasourceProperyity.DatasourceCon;
 import com.huimin.config.routingdatasource.DynamicDataSource;
@@ -33,11 +33,12 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@EnableConfigurationProperties(MybatisProperties.class)
+@EnableConfigurationProperties(MybatisPlusProperties.class)
 @MapperScan(basePackages = "com.huimin.mapper")
 public class MybatisPlusConfig {
 
-	private MybatisProperties properties;
+	@Autowired
+	private MybatisPlusProperties properties;
 	private ResourceLoader resourceLoader = new DefaultResourceLoader();
 	@Autowired(required = false)
 	private Interceptor[] interceptors;
@@ -46,10 +47,6 @@ public class MybatisPlusConfig {
 
 	@Autowired
 	private MydatasourceProperyity mydatasourceProperyity;
-	
-	public MybatisPlusConfig(MybatisProperties properties) {
-		this.properties = properties;
-	}
 	
 	@Bean
 	public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean() {
@@ -76,14 +73,19 @@ public class MybatisPlusConfig {
 		if (this.databaseIdProvider != null) {
 			mybatisPlus.setDatabaseIdProvider(this.databaseIdProvider);
 		}
-		mybatisPlus.setTypeAliasesPackage("com.huimin.entity");
-		mybatisPlus.setTypeEnumsPackage("com.huimin.entity.enums");
+		if (StringUtils.hasLength(this.properties.getTypeAliasesPackage())) {
+			mybatisPlus.setTypeAliasesPackage(this.properties.getTypeAliasesPackage());
+		}
+		if (StringUtils.hasLength(this.properties.getTypeEnumsPackage())) {
+			mybatisPlus.setTypeEnumsPackage(this.properties.getTypeEnumsPackage());
+		}
 		if (StringUtils.hasLength(this.properties.getTypeHandlersPackage())) {
 			mybatisPlus.setTypeHandlersPackage(this.properties.getTypeHandlersPackage());
 		}
 		if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
 			mybatisPlus.setMapperLocations(this.properties.resolveMapperLocations());
 		}
+		mybatisPlus.setConfiguration(this.properties.getConfiguration());
 		return mybatisPlus;
 	}
 

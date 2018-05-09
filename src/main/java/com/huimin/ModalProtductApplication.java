@@ -1,12 +1,11 @@
 package com.huimin;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.huimin.mapper")
+//@MapperScan(basePackages = "com.huimin.mapper")
 //@EnableDiscoveryClient
 public class ModalProtductApplication {
 

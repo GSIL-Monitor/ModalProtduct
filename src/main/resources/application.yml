@@ -9,11 +9,20 @@ spring:
     user:
       name: admin
       password: admin
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirms: true
+    publisher-returns: true
+    template:
+      mandatory: true
 #  datasource:
-    #username: root
-   # password: root
-    #url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull
-    #driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: root
+#    url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull
+#    driver-class-name: com.mysql.jdbc.Driver
 #    type: com.zaxxer.hikari.HikariDataSource 
 #    hikari:
 #      auto-commit: false
@@ -38,8 +47,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 logging:
-  level:
-    com.huimin.mapper: debug 
+  config: classpath:log/log4j2-dev.yaml
     
 test:
   hikari:

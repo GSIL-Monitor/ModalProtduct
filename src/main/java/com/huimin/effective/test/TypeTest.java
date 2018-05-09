@@ -1,8 +1,6 @@
 package com.huimin.effective.test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -27,14 +25,14 @@ public class TypeTest {
 	}
 	@Test
 	public void test01() {
-		List<String> listS = new ArrayList<>();
-		List<Object> listO = new ArrayList<>();
-		List<?> list2 = new ArrayList<>();
-		List list = new ArrayList();
-		list.add(listS);
-		listO.add(listS);
-		//listS.add(listO);
-		HashMap<Class<?>,Object> hashMap = new HashMap<Class<?>, Object>();
+//		List<String> listS = new ArrayList<>();
+//		List<Object> listO = new ArrayList<>();
+//		List<?> list2 = new ArrayList<>();
+//		List list = new ArrayList();
+//		list.add(listS);
+//		listO.add(listS);
+//		//listS.add(listO);
+//		HashMap<Class<?>,Object> hashMap = new HashMap<Class<?>, Object>();
 	}
 }
 

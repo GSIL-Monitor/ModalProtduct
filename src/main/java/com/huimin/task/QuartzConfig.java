@@ -11,7 +11,7 @@ public class QuartzConfig {
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean(){
 		SchedulerFactoryBean factoryBean = new SchedulerFactoryBean();
-		factoryBean.setStartupDelay(1);
+		factoryBean.setStartupDelay(20);
 		return factoryBean;
 	}
 	

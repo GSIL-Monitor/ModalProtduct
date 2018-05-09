@@ -11,6 +11,7 @@ public class AuthInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		//HandlerMethod handlerMethod = (HandlerMethod) handler;  
 		System.out.println("'我是权限拦截器");
 		return true;
 	}

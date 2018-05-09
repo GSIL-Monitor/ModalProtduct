@@ -10,14 +10,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.apache.ibatis.jdbc.SQL;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -30,7 +35,88 @@ import com.huimin.util.LogUtil;
 
 
 public class BaseTest {
+	
+	@Test
+	public  void test09() {
+		List<Student> students = new ArrayList<>();
+		students.add(new Student(1, "诸葛亮", 12));
+		students.add(new Student(1, "张飞", 24));
+		students.add(new Student(1, "关羽", 56));
+		students.add(new Student(2, "孙权", 34));
+		students.add(new Student(2, "周瑜", 45));
+		students.add(new Student(2, "鲁肃", 12));
+		students.add(new Student(3, "曹操", 46));
+		students.add(new Student(3, "郭嘉", 45));
+		students.add(new Student(3, "典韦", 44));
+		
+		Map<Integer, List<Student>> map = students.stream().sorted(Comparator.comparing(Student::getAge)).collect(Collectors.groupingBy(Student::getId));
+		System.out.println(map);
+//		map.forEach((key, value) -> {
+//			value.stream().sorted(Comparator.comparing(Student::getName));
+//		});
+		System.out.println(map);
+	}  
+	
+	@Test
+	public void test8() throws Exception{
+//		URL url = new URL("http://www.zhuliang2.test.com:9010/test/");
+//		System.out.println(url.getAuthority());
+//		System.out.println(url.getHost());
+		TreeSet<Student> set = new TreeSet<>(new Comparator<Student>() {
 
+			@Override
+			public int compare(Student o1, Student o2) {
+				return o1.getAge() - o2.getAge();
+			}
+		});
+		Student student = new Student();
+		student.setAge(10);
+		Student student2 = new Student();
+		student2.setAge(1);
+		Student student3 = new Student();
+		student3.setAge(15);
+		set.add(student);
+		set.add(student3);
+		set.add(student2);
+		Integer age = set.first().getAge();
+		System.out.println(age);
+	}
+	@Test
+	public void test7() throws Exception{
+        Pattern pattern = Pattern.compile("/*");
+        Matcher matcher = pattern.matcher("/jsjjs/jjs");
+        System.out.println(matcher.matches());
+		Set<String> keys = new HashSet<>();
+		keys.add("1111111111");
+		keys.add("1111111112");
+		keys.add("1111111113");
+		keys.add("1111111114");
+		Set<String> collect = keys.stream().map(key -> ("sso-" + key)).collect(Collectors.toSet());
+		System.out.println(collect);
+	}
+	
+	@Test
+	public void test6() throws Exception{
+		System.out.println(System.currentTimeMillis() - 1522310129941L);
+	}
+	@Test
+	public void test16() throws Exception{
+		Map<String, Object> param = new HashMap<>();
+		param.put("title","get_store_user");
+		Map<String, Object> param2 = new HashMap<>();
+		//param2.put("id", 2);
+		param.put("params", param2);
+		String jsonResult =  HttpClientUtils.doPostJson("http://bi.alpha.huimin100.cn:8888",param );
+	System.out.println(jsonResult);
+	}
+	@Test
+	public void test5() throws Exception{
+		Header[] headers = new Header[2] ;
+		headers[0] = new BasicHeader("userToken", "a2e3a30b-9097-42ba-9af5-1460a131d00c1");
+		headers[1] = new BasicHeader("uuidToken", "997e1c6b-de08-4896-b653-a23603e5ded71");
+		String string = HttpClientUtils.doPost("http://www.zhuliang1.test.com:9001/test", null, "UTF-8", headers );
+		System.out.println(string);
+	}
 	@Test
 	public void test4() throws Exception{
 		LogUtil.logger(this).info("id = {}, age = {}", 1, 12);;

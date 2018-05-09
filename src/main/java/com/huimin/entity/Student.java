@@ -24,6 +24,13 @@ public class Student {
 	private  Type type;
 	private Sex sex;
 	
+	public Student() {
+	}
+	public Student(Integer id, String name, Integer age) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+	}
 	@Override
 	public int hashCode() {
 		return 100;
