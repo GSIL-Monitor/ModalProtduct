@@ -51,7 +51,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		FastJsonConfig fastJsonConfig = new FastJsonConfig();
 		fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
 		// 3、在convert中添加配置信息
-		fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+		//fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
 		fastConverter.setFastJsonConfig(fastJsonConfig);
 		// 处理中文乱码问题
 		List<MediaType> fastMediaTypes = new ArrayList<>();

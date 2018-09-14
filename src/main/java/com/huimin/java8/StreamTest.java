@@ -142,7 +142,7 @@ public class StreamTest {
 	@Test
 	public void test11() {
 		long count = artists().stream().map(men -> men.getMembers().size())
-				.reduce(0, (a,b) -> a+b );
+				.reduce(0,(a,b) -> a+b);
 		System.out.println(count);
 	}
 	@Test
@@ -231,6 +231,14 @@ public class StreamTest {
 		List<Artist> artists = artists();
 		long count = artists.stream().filter(artist -> artist.getOrigin().equals("北京")).count();
 		System.out.println(count);
+	}
+	
+	
+	@Test
+	public void test30() {
+		artists().stream().reduce(null, (a, aa)->{
+			return aa;
+		});
 	}
 	
 	public List<Artist> artists(){

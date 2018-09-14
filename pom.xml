@@ -46,10 +46,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-security</artifactId>
+	    </dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -61,51 +61,51 @@
 			<!-- <scope>test</scope> -->
 		</dependency>
 		<dependency>
-    <groupId>com.baomidou</groupId>
-    <artifactId>mybatisplus-spring-boot-starter</artifactId>
-    <version>1.0.5</version>
- </dependency>
-<dependency>
-    <groupId>com.baomidou</groupId>
-    <artifactId>mybatis-plus</artifactId>
-    <version>2.1.7</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-jdbc</artifactId>
-</dependency>
-<dependency>
-    <groupId>com.zaxxer</groupId>
-    <artifactId>HikariCP</artifactId>
-    <scope>compile</scope>
-</dependency>
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-</dependency>
-<dependency>
+		    <groupId>com.baomidou</groupId>
+		    <artifactId>mybatisplus-spring-boot-starter</artifactId>
+		    <version>1.0.5</version>
+		 </dependency>
+		<dependency>
+		    <groupId>com.baomidou</groupId>
+		    <artifactId>mybatis-plus</artifactId>
+		    <version>2.1.7</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <scope>compile</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
         </dependency>
         <dependency>
-    <groupId>org.quartz-scheduler</groupId>
-    <artifactId>quartz</artifactId>
-  </dependency>
-  <dependency>
-    <groupId>org.quartz-scheduler</groupId>
-    <artifactId>quartz-jobs</artifactId>
-    <version>2.2.1</version>
-  </dependency>
-  <dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz-jobs</artifactId>
+		    <version>2.2.1</version>
+		</dependency>
+  		<dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
             <version>3.3.0</version>
         </dependency>
         <dependency>
-    <groupId>com.alibaba</groupId>
-    <artifactId>fastjson</artifactId>
-    <version>1.2.44</version>
-</dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.44</version>
+		</dependency>
 
         <dependency>
         	<groupId>org.springframework.boot</groupId>
@@ -116,10 +116,10 @@
             <artifactId>httpclient</artifactId>
         </dependency>
         <dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-properties-migrator</artifactId>
-</dependency>
- <dependency> <!-- exclude掉spring-boot的默认log配置 -->
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-properties-migrator</artifactId>
+		</dependency>
+        <dependency> <!-- exclude掉spring-boot的默认log配置 -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
@@ -141,8 +141,60 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		</dependency>
+		<dependency>
+	       <groupId>commons-io</groupId>
+	       <artifactId>commons-io</artifactId>
+	       <version>2.1</version>
+       </dependency>
+       <dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.9.7</version>
+	   </dependency>
+	   <dependency>
+	        <groupId>net.sourceforge.saxon</groupId>
+	        <artifactId>saxon</artifactId>
+	        <version>9.1.0.8</version>
+       </dependency>        
+	   <dependency>
+	        <groupId>dom4j</groupId>
+	        <artifactId>dom4j</artifactId>
+	   </dependency>
+	   <dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>2.0</version>
+	   </dependency>
+	   <dependency>
+	       <groupId>com.belerweb</groupId>
+	       <artifactId>pinyin4j</artifactId>
+	       <version>2.5.0</version>
+	   </dependency>
+	   <dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 	</dependencies>
-<dependencyManagement>
+    <dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>

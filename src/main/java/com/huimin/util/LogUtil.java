@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
  */
 public class LogUtil {
 	private  Logger logger;
-    private static final LogUtil logUtil = new LogUtil();
     private  LogUtil() {
 	}
 	public static <T> LogUtil logger(Class<T> clazz) {
+		LogUtil logUtil = new LogUtil();
 		logUtil.logger = LoggerFactory.getLogger(clazz);
 		return logUtil;
 	}

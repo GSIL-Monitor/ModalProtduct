@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -29,13 +32,133 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONReader;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.huimin.entity.Student;
+import com.huimin.entity.security.Role;
+import com.huimin.util.DateUtil;
+import com.huimin.util.EncryptUtil;
 import com.huimin.util.HttpClientUtils;
 import com.huimin.util.LogUtil;
 
 
 public class BaseTest {
+	@Test
+	public void test35() {
+		Date parse = DateUtil.parse("2018-04-23");
+		System.out.println(parse.compareTo(new Date()));
+	}
+	@Test
+	public void test34() {
+		Date parse = DateUtil.parse("2018-04-23");
+		System.out.println(parse.compareTo(new Date()));
+	}
+	@Test
+	public void test33() {
+		String md5 = EncryptUtil.md5("123456");
+		System.out.println(md5);
+	}
+		@Test
+		public void test32() {
 	
+		List<Integer> list = new ArrayList<>();
+		list.add(1);
+		list.add(2);
+		list.add(22);
+		list.add(21);
+		list.add(23);
+		list.add(24);
+		list.add(25);
+		list.add(26);
+		List<Integer> subList = list.subList(0, 6);
+		System.out.println(list);
+		System.out.println(subList);
+	}
+		@Test
+		public void test31() {
+		List<Student> students = new ArrayList<>();
+		for (int i = 0; i < 5000; i++) {
+			students.add(new Student(i % 100, "张三" + i, i));
+		}
+		
+		long start = System.currentTimeMillis();
+		Map<Integer, List<Student>> map = students.stream().collect(Collectors.groupingBy(Student::getId));
+		//System.out.println(list);
+		long start2 = System.currentTimeMillis();
+		System.out.println(start2 - start);
+		map = new HashMap<>();
+		for (Student student : students) {
+			List<Student> list = map.get(student.getId());
+			if (list == null) {
+				list = new ArrayList<>();
+				list.add(student);
+				map.put(student.getId(), list);
+			}else {
+				list.add(student);
+			}
+		}
+		long start3 = System.currentTimeMillis();
+		System.out.println(start3 - start2);
+	}
+	@Test
+	public void test30() {
+		List<Student> students = new ArrayList<>();
+		for (int i = 0; i < 500000; i++) {
+			students.add(new Student(i, "张三" + i, i));
+		}
+		
+		long start = System.currentTimeMillis();
+		List<Integer> list = students.stream().map(Student::getId)
+				.collect(Collectors.toList());
+		//System.out.println(list);
+		long start2 = System.currentTimeMillis();
+		System.out.println(start2 - start);
+		list = new ArrayList<>();
+		for (Student student : students) {
+			list.add(student.getId());
+		}
+		long start3 = System.currentTimeMillis();
+		System.out.println(start3 - start2);
+	}
+	
+		@Test
+		public void test14() {
+		Student student = new Student(1, "张三", 12);
+		String jsonString = JSON.toJSONString(student);
+		JSONReader jsonReader = new JSONReader(new StringReader(jsonString));
+		JSONObject readObject = jsonReader.readObject(JSONObject.class);
+		jsonReader.close();
+		System.out.println(readObject);
+	}
+		@Test
+		public void test13() {
+		/*JSONArray jsonArray = new JSONArray();
+		jsonArray.add("1");*/
+		/*
+	     * 实体带查询使用方法  输出看结果
+	     */
+		EntityWrapper<Role> wrapper = new EntityWrapper<>();
+	    wrapper.like("aaa", "www")
+	    .andNew("b = {0} or c = {1}", 1, 2);
+	    System.out.println(wrapper.getSqlSegment());
+	}
+	@Test
+	public void test12() {
+		String url = "http://www.easybots.cn/api/holiday.php";
+		Map<String, Object> params = new HashMap<>();
+		params.put("d", "20180101");
+		String doGet = HttpClientUtils.doGet(url, params);
+		System.out.println(doGet);
+	}
+	@Test
+	public void test11() {
+		
+		String[] keysAndArgsn = {"1", "2"};
+		String[] range = Arrays.copyOfRange(keysAndArgsn , 0, 1);
+		System.out.println(range.length);
+	}
 	@Test
 	public  void test09() {
 		List<Student> students = new ArrayList<>();

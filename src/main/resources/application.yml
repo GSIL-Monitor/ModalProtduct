@@ -1,7 +1,8 @@
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8088/eureka/
+eureka:
+  client:
+    enabled: false
+    service-url:
+      defaultZone: http://localhost:8088/eureka/
 server:
   port: 8081
 spring:
@@ -18,20 +19,45 @@ spring:
     publisher-returns: true
     template:
       mandatory: true
+  redis:
+    host: 192.168.235.129
+    password: demo123
+    port: 6379
+    database: 0
+    jedis:
+      pool:
+        max-active: 10
+  mail:
+    host: smtp.exmail.qq.com
+    username: kefu@huimin100.cn
+    password: 4ZvhyVzdgwxxAGkh
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 25000
+          ssl:
+            enable: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          starttls:
+            enable: true
+            required: true
 #  datasource:
 #    username: root
 #    password: root
 #    url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull
-#    driver-class-name: com.mysql.jdbc.Driver
+#    
 #    type: com.zaxxer.hikari.HikariDataSource 
 #    hikari:
 #      auto-commit: false
-#      maximum-pool-size: 100
-#      connection-timeout: 1000
-#      idle-timeout: 100000
-#      isolate-internal-queries: false
-      
-#    multipart:
+####      maximum-pool-size: 100
+####      connection-timeout: 1000
+####      idle-timeout: 100000
+####      isolate-internal-queries: false
+####      
+#####    multipart:
 #      enabled: true
 #     max-file-size: 3MB
 #      max-request-size: 3MB
@@ -48,7 +74,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 logging:
   config: classpath:log/log4j2-dev.yaml
-    
+  
 test:
   hikari:
     auto-commit: true

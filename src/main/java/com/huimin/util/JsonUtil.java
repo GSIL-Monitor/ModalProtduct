@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
  * @author ThinkPad
  *
  */
-public interface JsonUtil {
+public class JsonUtil {
 
 	/**
 	 * 将对象转换为json字符串

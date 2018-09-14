@@ -1,5 +1,7 @@
 package com.huimin.util;
 
+
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,6 +27,7 @@ public class DateUtil {
 	    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(
 	            TIME_FORMATTER_PATTERN);
 
+	    private static final long DAY_LONG = 24 * 60 * 60 * 1000;//一天的毫秒数
 
 	    /**
 	     * 根据预设格式 <b>yyyy-MM-dd HH:mm:ss</b> 转换当前日期为{@link String}类型的日期
@@ -75,6 +78,10 @@ public class DateUtil {
 	        return format(date, DATE_TIME_FORMATTER);
 	    }
 
+	    
+	    public static String formatDate(Date date) {
+	    	return format(date, DATE_FORMATTER);
+	    }
 	    /**
 	     * 根据自定义格式转换指定日期为{@link String}类型的日期
 	     *
@@ -222,6 +229,12 @@ public class DateUtil {
 	                .toInstant();
 	        return Date.from(instant);
 	    }
+	    public static Date endOfDay(Date date) {
+	    	LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    	Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).minusNanos(1)
+	    			.toInstant();
+	    	return Date.from(instant);
+	    }
 
 	    public static long plusAndGetStartOfDayMillis(long days) {
 	        return LocalDate.now().plusDays(days).atStartOfDay(ZoneId.systemDefault()).toInstant()
@@ -237,6 +250,10 @@ public class DateUtil {
 	        return Date.from(LocalDate.now().plusDays(day).atStartOfDay(ZoneId
 	                .systemDefault()).toInstant());
 	    }
+	    public static Date plus(Date date, int day) {
+	    	return Date.from(date2LocalDate(date).plusDays(day).atStartOfDay(ZoneId
+	    			.systemDefault()).toInstant());
+	    }
 	    
 	    public static LocalDate date2LocalDate(Date date) {
 	    	return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -244,5 +261,52 @@ public class DateUtil {
 	    public static LocalDateTime date2LocalDateTime(Date date) {
 	    	return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
 	    }
+
+	    /**
+	     * 获取当月第一天
+	     * @return
+	     */
+		public static Date getMouthStartDay() {
+			return Date.from(LocalDate.now().withDayOfMonth(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+		}
+
+		/**
+		 * 计算两个时间相隔多少天
+		 * @param startTime
+		 * @param endTime
+		 * @return
+		 */
+		public static int getDifferDays(Date startTime, Date endTime) {
+			long starttime = startOfDay(startTime).getTime();
+			long time = startOfDay(endTime).getTime();
+			return (int) ((time - starttime) / DAY_LONG);
+		}
+		
+		/**
+		 * 获取该天是周几
+		 * @param date
+		 * @return
+		 */
+		public static String getDayOfWeek(Date date) {
+			DayOfWeek dayOfWeek = date2LocalDate(date).getDayOfWeek();
+		    switch (dayOfWeek) {
+			case MONDAY:
+				return "星期一";
+			case TUESDAY:
+				return "星期二";
+			case WEDNESDAY:
+				return "星期三";
+			case THURSDAY:
+				return "星期四";
+			case FRIDAY:
+				return "星期五";
+			case SATURDAY:
+				return "星期六";
+			case SUNDAY:
+				return "星期日";
+			default:
+				return "";
+			}
+		}
 	
 }
