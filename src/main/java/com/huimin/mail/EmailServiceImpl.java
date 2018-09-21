@@ -1,7 +1,9 @@
 package com.huimin.mail;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,11 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.crypt.EncryptionInfo;
+import org.apache.poi.poifs.crypt.EncryptionMode;
+import org.apache.poi.poifs.crypt.Encryptor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -96,13 +103,29 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(content);  
             attachments.forEach((name, workBook) -> {
                 try {
-                	//POI对Excel文件加密	
-                	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    workBook.write(baos);
-                    baos.flush();
-                    byte[] bt = baos.toByteArray();
-                   baos.close();
-					helper.addAttachment(name, new ByteArrayResource(bt) );
+					// 把工作薄输出到字节里面
+					ByteArrayOutputStream bout = new ByteArrayOutputStream();
+					workBook.write(bout);
+					bout.flush();
+					ByteArrayInputStream Workbookinput = new ByteArrayInputStream(bout.toByteArray());
+					// 创建POIFS文件系统 加密文件
+					POIFSFileSystem fs = new POIFSFileSystem();
+					// EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+					EncryptionInfo info = new EncryptionInfo(EncryptionMode.agile);
+					Encryptor enc = info.getEncryptor();
+					enc.confirmPassword("123456");
+					// 然后把字节输入到输入流，然后输入到OPC包里面
+					OPCPackage opc = OPCPackage.open(Workbookinput);
+					OutputStream os = enc.getDataStream(fs);
+					opc.save(os);
+					opc.close();
+					// POI对Excel文件加密
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					fs.writeFilesystem(baos);
+					baos.flush();
+					byte[] bt = baos.toByteArray();
+					baos.close();
+					helper.addAttachment(name, new ByteArrayResource(bt));
 				} catch (Exception e) {
 		    		logger.info("邮件发送失败，{} 发送给 {}", userName, sendTo);
 					throw new RuntimeException(e);  				}  

@@ -391,4 +391,8 @@ public class BaseTest {
         String encode = passwordEncoder.encode("admin");
         System.out.println(encode);
 	}
+	@Test
+	public void test20() throws Exception{
+		System.out.println(DateUtil.plus(1).compareTo(DateUtil.endOfDay(new Date())));
+	}
 }
