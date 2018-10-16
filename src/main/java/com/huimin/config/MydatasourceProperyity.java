@@ -7,25 +7,24 @@ import org.springframework.stereotype.Component;
 
 import com.zaxxer.hikari.HikariConfig;
 
-@ConfigurationProperties(prefix = "test")
 @Component
+@ConfigurationProperties(prefix = "mydatasource")
 public class MydatasourceProperyity {
 
-	private  List<DatasourceCon> mydatasource;
+	private  List<DatasourceCon> datasources;
 	
 	private HikariConfig hikari;
 	
-	
-	public List<DatasourceCon> getMydatasource() {
-		return mydatasource;
+
+	public List<DatasourceCon> getDatasources() {
+		return datasources;
 	}
 
 
-	public void setMydatasource(List<DatasourceCon> mydatasource) {
-		this.mydatasource = mydatasource;
+	public void setDatasources(List<DatasourceCon> datasources) {
+		this.datasources = datasources;
 	}
 
-	
 
 	public HikariConfig getHikari() {
 		return hikari;

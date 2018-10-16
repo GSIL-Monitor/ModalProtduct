@@ -26,8 +26,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.huimin.entity.Demo;
+import com.huimin.entity.Student;
 import com.huimin.entity.security.User;
 import com.huimin.mail.EmailService;
+import com.huimin.service.DemoService;
+import com.huimin.service.StudentService;
 import com.huimin.service.UserService;
 import com.huimin.util.ExcelUtil;
 import com.huimin.util.HttpClientUtils;
@@ -41,13 +45,44 @@ public class ModalProtductApplicationTests {
 	
 	@Autowired
 	private  EmailService emailService;
+	
+	@Autowired
+	private StudentService studentService;
+	
+	@Autowired
+	private DemoService demoService;
+	@Test
+	public void test11() {
+	   List<Demo> demos = new ArrayList<>();
+	   for (int i = 0; i < 5000; i++) {
+		Demo demo = new Demo();
+		demo.setName("周瑜" + i);
+		demo.setAge(i);
+		demos.add(demo);
+	}
+	   long start = System.currentTimeMillis();
+	   demoService.insertBatch(demos, 30);
+	   long end = System.currentTimeMillis();
+	   System.out.println(end - start);
+	}
+	@Test
+	public void test10() {
+		List<Student> students = new ArrayList<>();
+		for (int i = 0; i < 5000; i++) {
+			students.add(new Student(null, "诸葛亮" + i, i));
+		}
+		long start = System.currentTimeMillis();
+		studentService.insertBatch(students);
+		long end = System.currentTimeMillis();
+		System.out.println(end - start);
+	}
 	@Test
 	public void contextLoads() {
-	   Map<String, Object> map = new HashMap<String, Object>();
-	   map.put("id", 10);
-	   map.put("name", "周瑜");
-	   String json = HttpClientUtils.doPostJson("http://127.0.0.1:8081/test", map);
-	   System.out.println(json);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", 10);
+		map.put("name", "周瑜");
+		String json = HttpClientUtils.doPostJson("http://127.0.0.1:8081/test", map);
+		System.out.println(json);
 	}
 	
 	@Test

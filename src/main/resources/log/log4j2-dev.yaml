@@ -8,7 +8,7 @@ Configuration:
       - name: log.level.console
         value: trace
       - name: log.level.ssoServer
-        value: info
+        value: debug
       - name: log.path
         value: E:/log
       - name: project.name

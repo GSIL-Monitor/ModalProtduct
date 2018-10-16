@@ -31,10 +31,10 @@ public class MyStartupRunner1 implements CommandLineRunner{
 	
 	@Autowired
 	private DataSource source;
-	//@Autowired
-	private Student student1;
-	//@Autowired
-	private Student student2;
+	@Autowired
+	private Student student10;
+	@Autowired
+	private Student student11;
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println(source);
@@ -55,8 +55,8 @@ public class MyStartupRunner1 implements CommandLineRunner{
 		System.out.println(source.getMaximumPoolSize());
 		System.out.println(source.getDataSourceProperties());
 		System.out.println("-----------------------------------------");
-		System.out.println(student1);
-		System.out.println(student2);
+		System.out.println(student10);
+		System.out.println(student11);
 	}
    
 	public  Student get(Integer key){

@@ -67,15 +67,14 @@ spring:
 #    mvc:
 #      favicon:
 #        enabled: false
+logging:
+  config: classpath:log/log4j2-dev.yaml
 mybatis-plus:
   type-aliases-package: com.huimin.entity
   type-enums-package: com.huimin.entity.enums
   configuration:
     map-underscore-to-camel-case: true
-logging:
-  config: classpath:log/log4j2-dev.yaml
-  
-test:
+mydatasource:
   hikari:
     auto-commit: true
     maximum-pool-size: 10
@@ -83,7 +82,7 @@ test:
     connection-timeout: 1000
     idle-timeout: 100000
     isolate-internal-queries: false
-  mydatasource:
+  datasources:
     - name: default
       username: root
       password: root
@@ -99,4 +98,8 @@ test:
       password: root
       url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull
       driver-class-name: com.mysql.jdbc.Driver
-  
+    - name: datasource3
+      username: huimin0328
+      password: cqLanRUbChX6
+      url: jdbc:mysql://rds1d57s9y9ez81im192o.mysql.rds.aliyuncs.com:3306/ehr_attn?characterEncoding=UTF8&amp;zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      driver-class-name: com.mysql.jdbc.Driver  

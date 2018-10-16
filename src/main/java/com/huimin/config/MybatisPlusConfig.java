@@ -15,6 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -35,7 +38,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableConfigurationProperties(MybatisPlusProperties.class)
 @MapperScan(basePackages = "com.huimin.mapper")
-public class MybatisPlusConfig {
+public class MybatisPlusConfig implements TransactionManagementConfigurer{
 
 	@Autowired
 	private MybatisPlusProperties properties;
@@ -91,7 +94,7 @@ public class MybatisPlusConfig {
 
 	@Bean
 	public DataSource dynamicDataSource() {
-		List<DatasourceCon> mydatasource = mydatasourceProperyity.getMydatasource();
+		List<DatasourceCon> mydatasource = mydatasourceProperyity.getDatasources();
 		Map<Object, Object> targetDataSources = new HashMap<>();
 		List<String> dataSourceIds = DynamicDataSourceContextHolder.dataSourceIds;
 		String defaultTargetDataSource = "default";
@@ -113,7 +116,7 @@ public class MybatisPlusConfig {
 		});
 		DynamicDataSource dynamicDataSource = new DynamicDataSource();
 		dynamicDataSource.setDefaultTargetDataSource(targetDataSources.get(defaultTargetDataSource));
-		targetDataSources.remove(defaultTargetDataSource);
+	//	targetDataSources.remove(defaultTargetDataSource);
 		dynamicDataSource.setTargetDataSources(targetDataSources);
 		return dynamicDataSource;
 	}
@@ -121,4 +124,9 @@ public class MybatisPlusConfig {
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
+
+	@Override
+	public PlatformTransactionManager annotationDrivenTransactionManager() {
+		return new DataSourceTransactionManager(dynamicDataSource());
+	}
 }

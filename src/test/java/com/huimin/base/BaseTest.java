@@ -42,9 +42,26 @@ import com.huimin.util.DateUtil;
 import com.huimin.util.EncryptUtil;
 import com.huimin.util.HttpClientUtils;
 import com.huimin.util.LogUtil;
+import com.huimin.util.SHA256Verify;
+import com.huimin.util.Sha256SignUtil;
 
 
 public class BaseTest {
+	@Test
+	public void test37() {
+		Map<String, String> params = new HashMap<>();
+		params.put("userId", "12345");
+		params.put("userName", "诸葛亮");
+		String key = "1111111111111";
+		Map<String, String> sign = Sha256SignUtil.sign(params, key);
+		System.out.println(sign);
+		//sign.remove("sign");
+		System.out.println(SHA256Verify.verifyRequest(sign, key));;
+	}
+	@Test
+	public void test36() {
+		System.out.println(Integer.parseInt("0000879"));
+	}
 	@Test
 	public void test35() {
 		Date parse = DateUtil.parse("2018-04-23");

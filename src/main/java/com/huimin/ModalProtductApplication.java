@@ -2,13 +2,16 @@ package com.huimin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 import com.alibaba.fastjson.JSON;
+import com.huimin.config.DynamicBeanRegistry;
 
 
 @SpringBootApplication
 //@MapperScan(basePackages = "com.huimin.mapper")
 //@EnableDiscoveryClient
+@Import(DynamicBeanRegistry.class)
 public class ModalProtductApplication {
 
 	public static void main(String[] args) {
