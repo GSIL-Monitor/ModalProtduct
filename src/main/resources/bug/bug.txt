@@ -1,0 +1,38 @@
+项目中遇到的bug汇总
+1.FastJsonHttpMessageConverter设置dateFormat后导致JSONField注解format失效解决办法
+  @Bean
+	public HttpMessageConverters customConverters() {
+		
+		// 1、需要先定义一个 convert 转换消息的对象;
+		FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+		// 2、添加fastJson 的配置信息，比如：是否要格式化返回的json数据;
+		FastJsonConfig fastJsonConfig = new FastJsonConfig();
+		fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat,SerializerFeature.PrettyFormat);
+		// 3、在convert中添加配置信息
+		//fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+		fastConverter.setFastJsonConfig(fastJsonConfig);
+		// 处理中文乱码问题
+		List<MediaType> fastMediaTypes = new ArrayList<>();
+		fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+		fastConverter.setSupportedMediaTypes(fastMediaTypes);
+		HttpMessageConverter<?> converter = fastConverter;
+		return new HttpMessageConverters(converter);
+	}
+	
+	在项目启动的时候加入 
+		SON.DEFFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+2 Spring boot 整合swagger时：
+	springboot整合spring-boot-devtools 导致swagger不能使用
+	
+	将spring-boot-devtools屏蔽  整合spring-boot-devtools有待解决,先使用jrebel插件热部署
+	
+	java.lang.NullPointerException: null
+	    at springfox.documentation.swagger.web.ApiResourceController.swaggerResources(ApiResourceController.java:86) ~[springfox-swagger-common-2.2.2.jar:2.2.2]
+	    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_144]
+	    at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[na:1.8.0_144]
+	    at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[na:1.8.0_144]
+	    at java.lang.reflect.Method.invoke(Unknown Source) ~[na:1.8.0_144]
+	    at org.springframework.web.method.support.InvocableHandlerMethod.doInvok
+	--------------------- 
+	原文：https://blog.csdn.net/qq_31459039/article/details/81299315 
+	

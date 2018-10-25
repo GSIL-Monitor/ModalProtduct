@@ -34,5 +34,7 @@ public class TreeTest {
 		treeBos.add(root4);
 		List<TreeBo> tree = TreeUtil.getTree(treeBos);
 		System.out.println(tree);
+		List<TreeBo> treeToList = TreeUtil.treeToList(tree.get(0));
+		System.out.println(treeToList);
 	}
 }

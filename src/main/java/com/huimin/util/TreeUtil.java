@@ -21,6 +21,12 @@ public class TreeUtil {
 	        return rootList;
 	    }
 
+	 
+	 public static <T extends BasicTree<T>> List<T> treeToList(T tree){
+		 List<T> list = new ArrayList<>();
+		 handleTree(tree, list);
+		 return list;
+	 }
 	    /**
 	     * 分离出根节点
 	     * @return
@@ -53,6 +59,15 @@ public class TreeUtil {
 	                iterator.remove();
 	                getTreeChildNode(sources,next);
 	            }
+			}
+	    }
+	    
+	    private static <T extends BasicTree<T>> void handleTree(T tree, List<T> list) {
+	    	List<T> children = tree.getChildren();
+	    	tree.setChildren(null);
+	    	list.add(tree);
+	    	for (T t : children) {
+				handleTree(t, list);
 			}
 	    }
 }
