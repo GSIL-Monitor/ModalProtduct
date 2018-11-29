@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,6 +48,32 @@ import com.huimin.util.Sha256SignUtil;
 
 
 public class BaseTest {
+	
+	private static LogUtil logger = LogUtil.logger(BaseTest.class);
+	
+	@Test
+	public void test41() {
+		BigDecimal rq =  new BigDecimal(2);
+		BigDecimal vp = new BigDecimal(20.00);
+		System.out.println(rq.multiply(vp));
+	}
+	@Test
+	public void test40() {
+		List<Student> parseArray = JSON.parseArray(null, Student.class);
+		List<Student> parseArray2 = JSON.parseArray("{}", Student.class);
+		System.out.println(parseArray);
+	}
+	@Test
+	public void test39() {
+		String a = null;
+		logger.info(a);
+	}
+	@Test
+	public void test38() {
+		JSONObject parseObject = JSONObject.parseObject(null);
+		System.out.println(parseObject);
+		
+	}
 	@Test
 	public void test37() {
 		Map<String, String> params = new HashMap<>();

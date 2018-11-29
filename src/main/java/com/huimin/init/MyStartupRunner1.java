@@ -31,10 +31,14 @@ public class MyStartupRunner1 implements CommandLineRunner{
 	
 	@Autowired
 	private DataSource source;
-	@Autowired
+	@Autowired(required = false)
 	private Student student10;
-	@Autowired
+	@Autowired(required = false)
 	private Student student11;
+	@Autowired(required = false)
+	private Student student1;
+	@Autowired(required = false)
+	private Student student2;
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println(source);
@@ -57,6 +61,8 @@ public class MyStartupRunner1 implements CommandLineRunner{
 		System.out.println("-----------------------------------------");
 		System.out.println(student10);
 		System.out.println(student11);
+		System.out.println(student1);
+		System.out.println(student2);
 	}
    
 	public  Student get(Integer key){

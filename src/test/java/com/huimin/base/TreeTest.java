@@ -32,7 +32,7 @@ public class TreeTest {
 		treeBos.add(root2);
 		treeBos.add(root3);
 		treeBos.add(root4);
-		List<TreeBo> tree = TreeUtil.getTree(treeBos);
+		List<TreeBo> tree = TreeUtil.getTree(treeBos, null);
 		System.out.println(tree);
 		List<TreeBo> treeToList = TreeUtil.treeToList(tree.get(0));
 		System.out.println(treeToList);

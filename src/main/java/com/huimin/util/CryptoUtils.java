@@ -77,8 +77,8 @@ public class CryptoUtils {
      *            an array of byte.
      * @return a {@link java.lang.String} object.
      */
-    public static String encodeSHA(final byte[] bytes) {
-        return DigestUtils.shaHex(bytes);
+	public static String encodeSHA(final byte[] bytes) {
+        return DigestUtils.sha1Hex(bytes);
     }
 
     /**

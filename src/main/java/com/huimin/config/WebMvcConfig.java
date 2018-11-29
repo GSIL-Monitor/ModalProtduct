@@ -1,10 +1,10 @@
 package com.huimin.config;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowire;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -43,24 +43,29 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(interceptor);
 	}
 
-	@Bean
-	public HttpMessageConverters customConverters() {
-		
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		Iterator<HttpMessageConverter<?>> iterator = converters.iterator();
+		while (iterator.hasNext()) {
+			iterator.remove();
+		}
 		// 1、需要先定义一个 convert 转换消息的对象;
 		FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
 		// 2、添加fastJson 的配置信息，比如：是否要格式化返回的json数据;
 		FastJsonConfig fastJsonConfig = new FastJsonConfig();
-		fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat,SerializerFeature.PrettyFormat);
+		fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat, SerializerFeature.PrettyFormat);
 		// 3、在convert中添加配置信息
-		//fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+		// fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
 		fastConverter.setFastJsonConfig(fastJsonConfig);
 		// 处理中文乱码问题
 		List<MediaType> fastMediaTypes = new ArrayList<>();
 		fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
 		fastConverter.setSupportedMediaTypes(fastMediaTypes);
 		HttpMessageConverter<?> converter = fastConverter;
-		return new HttpMessageConverters(converter);
+		converters.add(converter);
+		WebMvcConfigurer.super.configureMessageConverters(converters);
 	}
+
 	
 	@Bean(name = "student1", autowire = Autowire.BY_NAME)
 	public Student getStudent1() {

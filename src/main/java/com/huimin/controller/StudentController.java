@@ -29,7 +29,7 @@ public class StudentController {
 	private StudentService studentService;
 	
 	@GetMapping("/{id}")
-	@TargetDataSource(name = "datasource1")
+//	@TargetDataSource(name = "datasource1")
 	public Response getById(@PathVariable("id") Integer id){
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", 10);

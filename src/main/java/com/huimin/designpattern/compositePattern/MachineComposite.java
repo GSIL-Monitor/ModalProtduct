@@ -31,6 +31,7 @@ public class MachineComposite implements MachineComponent{
 		//return isCompetelyUp(this);
 	}
 
+	@SuppressWarnings("unused")
 	private boolean isCompetelyUp(MachineComposite machineComposite) {
 		List<MachineComponent> components = machineComposite.getMachineComponents();
 		if (components.isEmpty()) {

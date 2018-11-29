@@ -22,6 +22,16 @@ import org.junit.Test;
 public class StreamTest {
 
 	@Test
+	public void test27() {
+		
+		artists().stream().collect(Collectors.groupingBy(Artist::getName,Collectors.groupingBy(Artist::getName)))
+		.forEach((key, value) -> {
+			value.forEach((key2, v2) -> {
+				
+			});
+		});
+	}
+	@Test
 	public void test26() {
 		Assert.assertEquals(10, 10);
 		Assert.assertEquals(10, 9);

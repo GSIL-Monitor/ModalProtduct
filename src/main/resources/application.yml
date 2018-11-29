@@ -6,6 +6,9 @@ eureka:
 server:
   port: 8081
 spring:
+  autoconfigure:
+    exclude:
+    - org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration
   security:
     user:
       name: admin
@@ -44,6 +47,11 @@ spring:
           starttls:
             enable: true
             required: true
+dubbo:
+  application:
+    name: consumerService
+  registry:
+    address: zookeeper://127.0.0.1:2181
 #  datasource:
 #    username: root
 #    password: root
@@ -86,20 +94,20 @@ mydatasource:
     - name: default
       username: root
       password: root
-      url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
       driver-class-name: com.mysql.jdbc.Driver
     - name: datasource1
       username: root
       password: root
-      url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
       driver-class-name: com.mysql.jdbc.Driver
     - name: datasource2
       username: root
       password: root
-      url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
       driver-class-name: com.mysql.jdbc.Driver
     - name: datasource3
       username: huimin0328
       password: cqLanRUbChX6
-      url: jdbc:mysql://rds1d57s9y9ez81im192o.mysql.rds.aliyuncs.com:3306/ehr_attn?characterEncoding=UTF8&amp;zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      url: jdbc:mysql://rds1d57s9y9ez81im192o.mysql.rds.aliyuncs.com:3306/ehr_attn?characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=UTC
       driver-class-name: com.mysql.jdbc.Driver  

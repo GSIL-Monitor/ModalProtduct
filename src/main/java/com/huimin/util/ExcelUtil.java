@@ -9,16 +9,19 @@ import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.crypt.Decryptor;
 import org.apache.poi.poifs.crypt.EncryptionInfo;
 import org.apache.poi.poifs.crypt.EncryptionMode;
 import org.apache.poi.poifs.crypt.Encryptor;
@@ -32,8 +35,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -107,7 +112,7 @@ public class ExcelUtil {
 	 * @param values
 	 *            内容
 	 * @param wb
-	 *            HSSFWorkbook对象
+	 *            XSSFWorkbook对象
 	 * @return
 	 */
 	public static XSSFWorkbook getXSSFWorkbook(String sheetName, String[] title, List<List<Object>> values,
@@ -141,12 +146,24 @@ public class ExcelUtil {
 		fillExcel(sheet, style, values);
 		return wb;
 	}
-	public static void getXSSFWorkbook(String sheetName, String[] title, List<List<Object>> values,
-			XSSFWorkbook wb, String passWord, OutputStream outputStream) {
-		 getXSSFWorkbook(getXSSFWorkbook(sheetName, title, values, wb), passWord, outputStream);
+
+	/**
+	 * 加密导出Excel
+	 * @param sheetName
+	 * @param title
+	 * @param values
+	 * @param wb
+	 * @param passWord
+	 * @param outputStream
+	 */
+	public static void getXSSFWorkbook(String sheetName, String[] title, List<List<Object>> values, XSSFWorkbook wb,
+			String passWord, OutputStream outputStream) {
+		getXSSFWorkbook(getXSSFWorkbook(sheetName, title, values, wb), passWord, outputStream);
 	}
+
 	/**
 	 * 为Excel设置密码 并写入输出流
+	 * 
 	 * @param wb
 	 * @param password
 	 * @param outputStream
@@ -171,19 +188,6 @@ public class ExcelUtil {
 			opc.save(os);
 			opc.close();
 			fs.writeFilesystem(outputStream);
-//			String fileName = UUID.randomUUID().toString() + ".xlsx";
-//			File file = new File(fileName);
-//			FileOutputStream fileOutputStream = new FileOutputStream(file);
-//		    fs.writeFilesystem(fileOutputStream);
-//		    FileInputStream fileInputStream = new FileInputStream(file);
-//		    POIFSFileSystem pfs = new POIFSFileSystem(fileInputStream);
-//		    fileInputStream.close();
-//		    fileOutputStream.close();
-//			EncryptionInfo encInfo = new EncryptionInfo(pfs);
-//			Decryptor decryptor = Decryptor.getInstance(encInfo);
-//			decryptor.verifyPassword(password);
-//			 new XSSFWorkbook(decryptor.getDataStream(pfs));
-
 		} catch (Exception e) {
 			logger.error("加密Excel失败", e);
 			throw new RuntimeException(e);
@@ -220,28 +224,153 @@ public class ExcelUtil {
 		}
 	}
 
+	public static List<List<String>> readExcel(InputStream stream, String fileName, String password) {
+		List<List<String>> lists = new ArrayList<List<String>>();
+		if (stream == null || StringUtils.isEmpty(fileName)) {
+			return lists;
+		}
+		String prefix = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+		Workbook workbook;
+		try {
+			if (prefix.toUpperCase().equals("XLS")) {
+				org.apache.poi.hssf.record.crypto.Biff8EncryptionKey.setCurrentUserPassword(password);
+				workbook = WorkbookFactory.create(stream);
+			} else {
+				POIFSFileSystem pfs = new POIFSFileSystem(stream);
+				EncryptionInfo encInfo = new EncryptionInfo(pfs);
+				Decryptor decryptor = Decryptor.getInstance(encInfo);
+				decryptor.verifyPassword(password);
+				workbook = new XSSFWorkbook(decryptor.getDataStream(pfs));
+			}
+			return readExcel(workbook);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static List<List<String>> readExcel(InputStream stream, String fileName) throws Exception {
 		List<List<String>> lists = new ArrayList<List<String>>();
 		if (stream == null || StringUtils.isEmpty(fileName)) {
 			return lists;
 		}
-		String type = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+		String type = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
 		try (Workbook workbook = "xls".equals(type) ? new HSSFWorkbook(stream) : new XSSFWorkbook(stream);) {
-			Sheet sheet = workbook.getSheetAt(0);
-			List<String> list = null;
-			Row row = null;
-			for (int i = 0; i <= sheet.getLastRowNum(); i++) {
-				list = new ArrayList<>();
-				row = sheet.getRow(i);
-				for (int j = 0; j < row.getLastCellNum(); j++) {
-					list.add(getCellValue(row.getCell(j)));
-				}
-				lists.add(list);
-			}
-			return lists;
+			return readExcel(workbook);
 		}
 	}
 
+	public static List<List<String>> readExcel(Workbook workbook) throws Exception {
+		List<List<String>> lists = new ArrayList<List<String>>();
+		Sheet sheet = workbook.getSheetAt(0);
+		List<String> list = null;
+		Row row = null;
+		for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+			list = new ArrayList<>();
+			row = sheet.getRow(i);
+			for (int j = 0; j < row.getLastCellNum(); j++) {
+				list.add(getCellValue(row.getCell(j)));
+			}
+			lists.add(list);
+		}
+		return lists;
+	}
+
+	public static XSSFWorkbook hssfWorkbook2XSSFWorkbook(HSSFWorkbook hssfWorkbook) {
+		XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+		if (hssfWorkbook == null) {
+			return xssfWorkbook;
+		}
+		XSSFCellStyle xssfCellStyle = xssfWorkbook.createCellStyle();
+		XSSFFont xssfFont = xssfWorkbook.createFont();
+		Iterator<Sheet> sheetIterator = hssfWorkbook.sheetIterator();
+		while (sheetIterator.hasNext()) {
+			HSSFSheet sheet = (HSSFSheet) sheetIterator.next();
+			XSSFSheet xssfSheet = xssfWorkbook.createSheet(sheet.getSheetName());
+			xssfSheet.setActiveCell(sheet.getActiveCell());
+			xssfSheet.setAutobreaks(sheet.getAutobreaks());
+			xssfSheet.setDefaultColumnWidth(sheet.getDefaultColumnWidth());
+			xssfSheet.setDefaultRowHeight(sheet.getDefaultRowHeight());
+			xssfSheet.setDefaultRowHeightInPoints(sheet.getDefaultRowHeightInPoints());
+			xssfSheet.setDisplayGuts(sheet.getDisplayGuts());
+			xssfSheet.setFitToPage(sheet.getFitToPage());
+			xssfSheet.setForceFormulaRecalculation(sheet.getForceFormulaRecalculation());
+			xssfSheet.setHorizontallyCenter(sheet.getHorizontallyCenter());
+			xssfSheet.setRepeatingColumns(sheet.getRepeatingColumns());
+			xssfSheet.setRepeatingRows(sheet.getRepeatingRows());
+			xssfSheet.setRowSumsBelow(sheet.getRowSumsBelow());
+			xssfSheet.setRowSumsRight(sheet.getRowSumsRight());
+			xssfSheet.setVerticallyCenter(sheet.getVerticallyCenter());
+			for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+				XSSFRow xssfRow = xssfSheet.createRow(i);
+				Row row = sheet.getRow(i);
+				for (int j = 0; j < row.getLastCellNum(); j++) {
+					HSSFCell cell = (HSSFCell) row.getCell(j);
+					XSSFCell xssfCell = xssfRow.createCell(j);
+					xssfCell.setCellComment(cell.getCellComment());
+					HSSFCellStyle cellStyle = cell.getCellStyle();
+				//	xssfCellStyle.cloneStyleFrom(cellStyle);
+					xssfCellStyle.setAlignment(cellStyle.getAlignmentEnum());
+					xssfCellStyle.setBorderBottom(cellStyle.getBorderBottomEnum());
+					xssfCellStyle.setBorderLeft(cellStyle.getBorderLeftEnum());
+					xssfCellStyle.setBorderRight(cellStyle.getBorderRightEnum());
+					xssfCellStyle.setBorderTop(cellStyle.getBorderTopEnum());
+					xssfCellStyle.setBottomBorderColor(cellStyle.getBottomBorderColor());
+					xssfCellStyle.setDataFormat(cellStyle.getDataFormat());
+					xssfCellStyle.setFillBackgroundColor(cellStyle.getFillBackgroundColor());
+					xssfCellStyle.setFillPattern(cellStyle.getFillPatternEnum());
+					HSSFFont font = cellStyle.getFont(hssfWorkbook);
+					xssfFont.setBold(font.getBold());
+					xssfFont.setCharSet(font.getCharSet());
+					xssfFont.setColor(font.getColor());
+					xssfFont.setFontHeight(font.getFontHeight());
+					xssfFont.setFontHeightInPoints(font.getFontHeightInPoints());
+					xssfFont.setFontName(font.getFontName());
+					xssfFont.setItalic(font.getItalic());
+					xssfFont.setStrikeout(font.getStrikeout());
+					xssfFont.setTypeOffset(font.getTypeOffset());
+					xssfFont.setUnderline(font.getUnderline());
+					xssfCellStyle.setFont(xssfFont);
+					xssfCellStyle.setHidden(cellStyle.getHidden());
+					xssfCellStyle.setIndention(cellStyle.getIndention());
+					xssfCellStyle.setLeftBorderColor(cellStyle.getLeftBorderColor());
+					xssfCellStyle.setLocked(cellStyle.getLocked());
+					xssfCellStyle.setQuotePrefixed(cellStyle.getQuotePrefixed());
+					xssfCellStyle.setRightBorderColor(cellStyle.getRightBorderColor());
+					xssfCellStyle.setRotation(cellStyle.getRotation());
+					xssfCellStyle.setShrinkToFit(cellStyle.getShrinkToFit());
+					xssfCellStyle.setTopBorderColor(cellStyle.getTopBorderColor());
+					xssfCellStyle.setVerticalAlignment(cellStyle.getVerticalAlignmentEnum());
+					xssfCellStyle.setWrapText(cellStyle.getWrapText());
+					xssfCell.setCellStyle(xssfCellStyle);
+					xssfCell.setCellType(cell.getCellTypeEnum());
+					xssfCell.setHyperlink(cell.getHyperlink());
+					CellType cellType = cell.getCellTypeEnum();
+					switch (cellType) {
+					case STRING:
+						xssfCell.setCellValue(cell.getStringCellValue());
+						 break;
+					case BOOLEAN:
+						  xssfCell.setCellValue(cell.getBooleanCellValue());;
+						 break;
+					case ERROR:
+						xssfCell.setCellValue(cell.getErrorCellValue());
+						 break;
+					case FORMULA:// 公式
+						 xssfCell.setCellValue(cell.getCellFormula());
+						 break;
+					case NUMERIC:// 公式
+						// 如果为时间格式的内容
+						xssfCell.setCellValue(cell.getNumericCellValue());
+						 break;
+					default:
+						 break;
+					}
+				}
+			}
+		}
+		return xssfWorkbook;
+	}
 	private static String getCellValue(Cell cell) {
 		CellType cellType = cell.getCellTypeEnum();
 		switch (cellType) {
@@ -304,9 +433,9 @@ public class ExcelUtil {
 						}
 					}
 				}
-				}
 			}
 		}
+	}
 
 	public static void main(String[] args) {
 		File file2 = new File("C:\\Users\\ThinkPad\\Desktop\\文档\\异常考勤申请-智盛_1.xls");

@@ -108,7 +108,7 @@ public class ModalProtductApplicationTests {
 
 	@Test
 	public void test04() throws Exception {
-		String[] title = {"用户id", "用户名称"};
+	//	String[] title = {"用户id", "用户名称"};
 		//POI对Excel文件加密	
 		String path = "C:\\Users\\ThinkPad\\Desktop\\EHR组(1).xlsx";
 		POIFSFileSystem fs = new POIFSFileSystem();
@@ -121,6 +121,7 @@ public class ModalProtductApplicationTests {
 //		opc.close();
 		FileOutputStream fos = new FileOutputStream(path);
 		fs.writeFilesystem(fos);
+		fs.close();
 		fos.close();
 		
 //		Map<String, Workbook> attachments = new HashMap<>();
@@ -157,6 +158,7 @@ public class ModalProtductApplicationTests {
   FileOutputStream fos = new FileOutputStream("C:\\Users\\ThinkPad\\Desktop\\excel1.xlsx");
   fs.writeFilesystem(fos);
   fos.close();
+  wb.close();
 	}
 	
 }

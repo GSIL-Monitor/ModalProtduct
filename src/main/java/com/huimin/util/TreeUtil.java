@@ -12,8 +12,8 @@ public class TreeUtil {
 	 * @param sources
 	 * @return
 	 */
-	 public static <T extends BasicTree<T>> List<T> getTree(List<T> sources){
-	        List<T> rootList =  getTreeRoot(sources);
+	 public static <T extends BasicTree<T>> List<T> getTree(List<T> sources, Integer parentId){
+	        List<T> rootList =  getTreeRoot(sources, parentId);
 	        int len = rootList.size();
 	        for(int i=0;i<len;i++){
 	            getTreeChildNode(sources,rootList.get( i ));
@@ -31,14 +31,14 @@ public class TreeUtil {
 	     * 分离出根节点
 	     * @return
 	     */
-	    private  static <T extends BasicTree<T>> List<T> getTreeRoot(List<T> sources){
+	    private  static <T extends BasicTree<T>> List<T> getTreeRoot(List<T> sources, Integer parentId){
 	        List<T> rootList = new ArrayList<>(  );
 	        Iterator<T> iterator = sources.iterator();
 	        while (iterator.hasNext()) {
 				T next = iterator.next();
-				if(next.getParentId() == null){
+				if(next.getParentId() == null || next.getParentId().equals(parentId)){
 	                rootList.add(next);
-	                iterator.remove();
+	       //         iterator.remove();
 	            }
 			}
 	        return rootList;
@@ -56,7 +56,7 @@ public class TreeUtil {
 				if(next.getParentId().equals(parentNode.getId())){
 					next.setParentName(parentNode.getTitle());
 	                parentNode.getChildren().add(next);
-	                iterator.remove();
+	        //        iterator.remove();
 	                getTreeChildNode(sources,next);
 	            }
 			}

@@ -35,4 +35,35 @@
 	    at org.springframework.web.method.support.InvocableHandlerMethod.doInvok
 	--------------------- 
 	原文：https://blog.csdn.net/qq_31459039/article/details/81299315 
+3.spring boot 2.1.0 启动时报错
+   The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized or represents 
+   more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) 
+   to use a more specifc time zone value if you want to utilize time zone support.
+  解决方案：
+        url: jdbc:mysql://localhost:3306/mytest?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+        需要在连接后面加上这个：&serverTimezone=UTC
+4.spring boot 2.0.0以上版本配置FastJsonHttpMessageConverter不生效的解决办法
+  //如此重写此方法便会生效
+  @Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+	Iterator<HttpMessageConverter<?>> iterator = converters.iterator();
+	while (iterator.hasNext()) {
+		iterator.remove();
+	}
+		// 1、需要先定义一个 convert 转换消息的对象;
+		FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+		// 2、添加fastJson 的配置信息，比如：是否要格式化返回的json数据;
+		FastJsonConfig fastJsonConfig = new FastJsonConfig();
+		fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat, SerializerFeature.PrettyFormat);
+		// 3、在convert中添加配置信息
+		// fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+		fastConverter.setFastJsonConfig(fastJsonConfig);
+		// 处理中文乱码问题
+		List<MediaType> fastMediaTypes = new ArrayList<>();
+		fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+		fastConverter.setSupportedMediaTypes(fastMediaTypes);
+		HttpMessageConverter<?> converter = fastConverter;
+		converters.add(converter);
+		WebMvcConfigurer.super.configureMessageConverters(converters);
+	}
 	
