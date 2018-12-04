@@ -1,14 +1,14 @@
-package com.huimin.security;
+/*package com.huimin.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUtil {
 
-	/**
+	*//**
 	 * 返回当前登录的用户对象
 	 * @return
-	 */
+	 *//*
 	public static UserDetails getUserDetail() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -18,3 +18,4 @@ public class SecurityUtil {
 		return null;
 	}
 }
+*/

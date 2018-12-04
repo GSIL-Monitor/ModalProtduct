@@ -1,4 +1,4 @@
-package com.huimin.security;
+/*package com.huimin.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,6 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 //        .formLogin()
 //          .defaultSuccessUrl("/");
 		//super.configure(http);
-		http.authorizeRequests().anyRequest().permitAll();
+		http
+		.cors().disable()
+		.authorizeRequests().anyRequest().permitAll();
 	}
 }
+*/

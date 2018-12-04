@@ -1,4 +1,4 @@
-package com.huimin.security;
+/*package com.huimin.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,12 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.huimin.entity.security.Role;
 import com.huimin.entity.security.User;
 
-/**
+*//**
  * 
  * @author zhuliang
  *
  * @date 2017年12月20日
- */
+ *//*
 public class UserDetail implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -72,3 +72,4 @@ public class UserDetail implements UserDetails {
 	}
 
 }
+*/

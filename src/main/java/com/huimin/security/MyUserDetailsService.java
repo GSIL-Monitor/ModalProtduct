@@ -1,4 +1,4 @@
-package com.huimin.security;
+/*package com.huimin.security;
 
 import java.util.List;
 
@@ -32,3 +32,4 @@ public class MyUserDetailsService implements UserDetailsService{
 	}
 
 }
+*/

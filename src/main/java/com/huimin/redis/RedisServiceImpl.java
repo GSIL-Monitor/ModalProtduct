@@ -9,8 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public class RedisServiceImpl implements RedisService {
 	private static Logger logger = LoggerFactory.getLogger(RedisServiceImpl.class);
 
@@ -115,5 +116,10 @@ public class RedisServiceImpl implements RedisService {
 	@SuppressWarnings("unchecked")
 	private <T> T covernt(Object value, Class<T> clazz) {
 		return value == null ? null : (T) value;
+	}
+
+	@Override
+	public void lpush(String key, String value) {
+          redisTemplate.opsForList().leftPush(key, value);		
 	}
 }

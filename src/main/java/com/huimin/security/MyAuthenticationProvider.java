@@ -1,4 +1,4 @@
-package com.huimin.security;
+/*package com.huimin.security;
 
 import java.util.Collection;
 
@@ -42,3 +42,4 @@ public class MyAuthenticationProvider implements AuthenticationProvider{
 	}
 
 }
+*/

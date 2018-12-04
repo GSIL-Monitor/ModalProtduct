@@ -32,4 +32,5 @@ public interface RedisService {
 	
 	public <T> List<T> getList(String key, Class<T> clazz);
 	
+	public void lpush(String key, String value);
 }
