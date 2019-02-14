@@ -7,10 +7,15 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -28,7 +33,7 @@ import org.apache.tools.zip.ZipOutputStream;
 public class ZipUtils {
 
     private static final String DEFAULT_CHARSET = "UTF-8";
-
+    private static final int  BUFFER_SIZE = 2 * 1024;
     /**
      * 压缩文件夹
      *
@@ -180,5 +185,125 @@ public class ZipUtils {
         }
 
     }
-
+    /**
+    
+         * 压缩成ZIP 方法2
+    
+         * @param srcFiles 需要压缩的文件列表
+    
+         * @param out           压缩文件输出流
+    
+         * @throws RuntimeException 压缩失败会抛出运行时异常
+    
+         */
+    
+        public static void toZip(List<File> srcFiles , OutputStream out)throws RuntimeException {
+    
+            long start = System.currentTimeMillis();
+    
+            ZipOutputStream zos = null ;
+    
+            try {
+    
+                zos = new ZipOutputStream(out);
+    
+                for (File srcFile : srcFiles) {
+    
+                    byte[] buf = new byte[BUFFER_SIZE];
+    
+                   zos.putNextEntry(new ZipEntry(srcFile.getName()));
+    
+                    int len;
+    
+                    FileInputStream in = new FileInputStream(srcFile);
+    
+                    while ((len = in.read(buf)) != -1){
+    
+                        zos.write(buf, 0, len);
+    
+                    }
+    
+                    zos.closeEntry();
+    
+                    in.close();
+    
+                }
+    
+                long end = System.currentTimeMillis();
+    
+                System.out.println("压缩完成，耗时：" + (end - start) +" ms");
+    
+            } catch (Exception e) {
+    
+                throw new RuntimeException("zip error from ZipUtils",e);
+    
+            }finally{
+    
+                if(zos != null){
+    
+                    try {
+    
+                        zos.close();
+    
+                    } catch (IOException e) {
+    
+                        e.printStackTrace();
+    
+                    }
+    
+                }
+    
+            }
+    
+        }
+        
+        public static void unzip2(String fromZipFile, String unzipPath) {  
+            // TODO Auto-generated method stub  
+            long startTime=System.currentTimeMillis();  
+            try {  
+                ZipInputStream Zin=new ZipInputStream(new FileInputStream(  
+                        fromZipFile));//输入源zip路径  
+                BufferedInputStream Bin=new BufferedInputStream(Zin);  
+                String Parent= unzipPath; //输出路径（文件夹目录）  
+                File Fout=null;  
+                java.util.zip.ZipEntry entry;  
+                try {  
+                    while((entry = Zin.getNextEntry())!=null && !entry.isDirectory()){  
+                        Fout=new File(Parent,entry.getName());  
+                        if(!Fout.exists()){  
+                            (new File(Fout.getParent())).mkdirs();  
+                        }  
+                        FileOutputStream out=new FileOutputStream(Fout);  
+                        BufferedOutputStream Bout=new BufferedOutputStream(out);  
+                        int b;  
+                        while((b=Bin.read())!=-1){  
+                            Bout.write(b);  
+                        }  
+                        Bout.close();  
+                        out.close();  
+                        System.out.println(Fout+"解压成功");      
+                    }  
+                    Bin.close();  
+                    Zin.close();  
+                } catch (IOException e) {  
+                    e.printStackTrace();  
+                }  
+            } catch (FileNotFoundException e) {  
+                e.printStackTrace();  
+            }  
+            long endTime=System.currentTimeMillis();  
+            System.out.println("耗费时间： "+(endTime-startTime)+" ms");  
+        } 
+        
+        public static void main(String[] args) throws Exception {
+			File file1 = new File("C:\\Users\\ThinkPad\\Desktop\\1.txt");
+            file1.createNewFile();
+			File file2 = new File("C:\\Users\\ThinkPad\\Desktop\\2.txt");
+			file2.createNewFile();
+			List<File> list = new ArrayList<File>();
+			list.add(file1);
+			list.add(file2);
+			FileOutputStream stream = new FileOutputStream(new File("C:\\Users\\ThinkPad\\Desktop\\zip.zip"));
+			toZip(list, stream);
+		}
 }

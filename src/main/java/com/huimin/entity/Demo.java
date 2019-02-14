@@ -2,7 +2,9 @@ package com.huimin.entity;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 
@@ -23,6 +25,8 @@ public class Demo implements Serializable {
 	private Integer age;
 	private String name;
 
+	@TableField(exist = false)
+	private BigDecimal ty;
 
 	public Integer getId() {
 		return id;
@@ -46,6 +50,14 @@ public class Demo implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public BigDecimal getTy() {
+		return ty;
+	}
+
+	public void setTy(BigDecimal ty) {
+		this.ty = ty;
 	}
 
 	public static final String ID = "id";

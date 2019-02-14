@@ -6,9 +6,17 @@ eureka:
 server:
   port: 8081
 spring:
-  autoconfigure:
-    exclude:
-    - org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  elasticsearch:
+    rest:
+      uris:
+      - http://127.0.0.1:9200
+    transport:
+      cluster-name: elasticsearch
+      uris:
+      - 127.0.0.1:9300
   security:
     user:
       name: admin
@@ -51,6 +59,7 @@ dubbo:
   application:
     name: consumerService
   registry:
+    default: false
     address: zookeeper://127.0.0.1:2181
 #  datasource:
 #    username: root

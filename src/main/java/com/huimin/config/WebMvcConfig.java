@@ -47,6 +47,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		Iterator<HttpMessageConverter<?>> iterator = converters.iterator();
 		while (iterator.hasNext()) {
+			iterator.next();
 			iterator.remove();
 		}
 		// 1、需要先定义一个 convert 转换消息的对象;

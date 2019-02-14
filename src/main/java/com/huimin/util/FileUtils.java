@@ -25,8 +25,9 @@ import java.util.regex.Pattern;
 
 /**
  * 用于文件相关操作的工具类
- * 
- * 作者: zhoubang 日期：2015年8月7日 上午10:55:15
+ * @author zhuliang
+ *
+ * @Date 2019年1月28日下午3:17:00
  */
 public final class FileUtils implements Serializable {
     private static final long serialVersionUID = 6841417839693317734L;

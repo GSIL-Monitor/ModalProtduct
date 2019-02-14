@@ -8,25 +8,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationContextHolder implements ApplicationContextAware{
 
-	private ApplicationContext applicationContext;
+	private static ApplicationContext applicationContext;
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-         this.applicationContext = applicationContext;		
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
+         applicationContext = context;		
 	}
-	public ApplicationContext getApplicationContext() {
+	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
 
 	
-	public <T> T getBean(Class<T> clazz) {
+	public static <T> T getBean(Class<T> clazz) {
 		return applicationContext.getBean(clazz);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> T getBean(String name) {
+	public static <T> T getBean(String name) {
 		return (T) applicationContext.getBean(name);
 	}
-	public <T> T getBean(String name, Class<T> clazz) {
+	public static <T> T getBean(String name, Class<T> clazz) {
 		return  applicationContext.getBean(name, clazz);
 	}
 }
